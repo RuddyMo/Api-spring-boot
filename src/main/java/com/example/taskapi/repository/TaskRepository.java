@@ -21,4 +21,13 @@ public class TaskRepository {
                 }
         );
     }
+
+    public Task findById(int id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM tasks WHERE id = ?",
+                (rs, rowNum) -> {
+                    return new Task(rs.getInt("id"), rs.getString("title"), rs.getBoolean("completed"));
+                }, id
+        );
+    }
 }

@@ -25,12 +25,7 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}")
     Task getTask(@PathVariable int id) {
-        for (Task task : tasks){
-            if (task.getId() == id ) {
-                return task;
-            }
-        }
-        return null;
+        return taskRepository.findById(id);
     }
 
     @PostMapping("/tasks")
