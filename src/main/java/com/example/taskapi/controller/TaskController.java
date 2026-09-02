@@ -2,10 +2,12 @@ package com.example.taskapi.controller;
 
 import com.example.taskapi.model.Task;
 import com.example.taskapi.repository.TaskRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class TaskController {
@@ -24,8 +26,13 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    Task getTask(@PathVariable int id) {
-        return taskRepository.findById(id);
+    ResponseEntity<Task> getTask(@PathVariable int id) {
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isPresent()) {
+            return ResponseEntity.ok(task.get());
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/tasks")
