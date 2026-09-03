@@ -37,6 +37,8 @@ public class TaskRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
 
+    public Task save (Task task) {
     }
 }
