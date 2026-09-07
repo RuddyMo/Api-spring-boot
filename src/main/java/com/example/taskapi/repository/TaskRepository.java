@@ -40,11 +40,13 @@ public class TaskRepository {
     }
 
     public Task save (Task task) {
-        jdbcTemplate.update(
-                "INSERT INTO tasks (title, completed) VALUES (?, ?)",
+        return jdbcTemplate.queryForObject(
+                "INSERT INTO tasks (title, completed) VALUES (?, ?) RETURNING id, title, completed",
+                (rs, RowNum) -> {
+                    return new Task(rs.getInt("id"), rs.getString("title"), rs.getBoolean("completed"));
+                },
                 task.getTitle(),
                 task.isCompleted()
         );
-        return task;
     }
 }
